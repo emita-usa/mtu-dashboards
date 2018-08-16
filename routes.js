@@ -10,6 +10,7 @@ const router = new Router();
 
 const main = require("./controllers/main.js");
 const account = require("./controllers/account.js");
+const weather = require("./controllers/weather.js");
 
 // routes
 
@@ -19,17 +20,18 @@ router.get("/", main.index);
 router.get("/login", account.login);
 router.get("/logout", account.logout);
 router.get("/account", account.index);
+router.get("/weather", weather.index);
 
 // you can add as many strategies as you want
 router.get("/auth/github",
-	passport.authenticate("github")
+    passport.authenticate("github")
 );
 
 router.get("/auth/github/callback",
-	passport.authenticate("github", {
-		successRedirect: "/account",
-		failureRedirect: "/"
-	})
+    passport.authenticate("github", {
+        successRedirect: "/account",
+        failureRedirect: "/"
+    })
 );
 
 app.use(router.routes());

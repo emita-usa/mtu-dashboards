@@ -26,6 +26,9 @@
   },
   "homepage": "https://github.com/snollygolly/koa-starter#readme",
   "dependencies": {
+    "@google/maps": "^0.5.5",
+    "content-disposition": "^0.5.2",
+    "fs": "0.0.1-security",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-hbs": "^1.0.0",
@@ -34,6 +37,7 @@
     "koa-router": "^7.2.1",
     "koa-session": "^5.5.0",
     "koa-static": "^4.0.1",
+    "node-weatherunderground": "^1.2.0",
     "passport-github": "^1.0.0"
   },
   "devDependencies": {

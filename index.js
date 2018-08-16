@@ -42,24 +42,24 @@ app.use(mount("/assets", serve("./assets")));
 
 // load up the handlebars middlewear
 app.use(hbs.middleware({
-	viewPath: `${__dirname}/views`,
-	layoutsPath: `${__dirname}/views/layouts`,
-	partialsPath: `${__dirname}/views/partials`,
-	defaultLayout: "main"
+    viewPath: `${__dirname}/views`,
+    layoutsPath: `${__dirname}/views/layouts`,
+    partialsPath: `${__dirname}/views/partials`,
+    defaultLayout: "main"
 }));
 
 
 // Error handling middleware
-app.use(async(ctx,next) => {
-	try {
-		await next();
-	} catch (err) {
-		ctx.status = err.status || 500;
-		await ctx.render("error", {
-			message: err.message,
-			error: {}
-		});
-	}
+app.use(async (ctx, next) => {
+    try {
+        await next();
+    } catch (err) {
+        ctx.status = err.status || 500;
+        await ctx.render("error", {
+            message: err.message,
+            error: {}
+        });
+    }
 });
 
 require("./routes");
@@ -68,5 +68,5 @@ console.log(`${config.site.name} is now listening on port ${config.site.port}`);
 app.listen(config.site.port);
 
 process.on("SIGINT", function exit() {
-	process.exit();
+    process.exit();
 });
