@@ -1,133 +1,103 @@
 <link rel="stylesheet" href="/assets/css/widgets/weather.css">
-<link rel="stylesheet" href="/assets/global/fonts/weather-icons/weather-icons.css">
+<link rel="stylesheet" href="/assets/css/wu-icons-style.css">
 
 <div class="container site-header">
     <div class="page-content page-content-example container-fluid">
         <div class="row">
-            <div class="col-xxl-7">
+            <div class="col-xxl-12">
                 <!-- Card -->
                 <div class="card card-shadow weather">
-                    <div class="card-header card-header-transparent cover overlay">
-                        <img class="cover-image h-xl-450" src="{{ photoData }}" alt="...">
-                        <div class="overlay-panel">
-                            <span class="font-size-40 white">{{ location }}</span>
-                            <div class="weather-location input-search float-right mt-10">
-                                <input type="text" class="form-control form-control-sm grey-200" placeholder="Location">
-                                <button type="submit" class="input-search-btn">
-                                    <i class="icon md-search grey-400" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="card-footer card-footer-no-border bg-white">
+                    <div class="card card-shadow weather">
+                        <div class="row no-space">
+                            <span class="font-size-40 black">{{ location }}</span>
+                        </div>
                         <div class="row no-space">
                             <div class="col-lg-4 col-md-5 pl-30 py-30">
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="vertical-align">
-                                            <i class="vertical-align-middle wi-day-sunny font-size-50 mt-10"></i>
+                                            <i class="wu wu-black wu-64 wu-{{ conditions.icon }} font-size-24 mb-10"></i>
+                                            <p class="font-size-14 mb-0">{{ conditions.weather }}</p>
                                         </div>
                                     </div>
 
                                     <div class="col-8">
-                        <span class="blue-600 font-size-40">20°
-                          <span class="font-size-30">C</span>
-                        </span>
+                                        <span class="blue-600 font-size-40">{{ conditions.temp_f }}°
+                                          <span class="font-size-30">F</span>
+                                        </span>
                                         <span class="font-size-18 grey-700">/</span>
-                                        <span class="font-size-18 grey-700">7°
-                          <span class="font-size-16">C</span>
-                        </span>
-                                        <p class="font-size-14 mb-0">MONDAY 11.11.2017</p>
+                                        <span class="font-size-18 grey-700">{{ conditions.feelslike_f }}°
+                                            <span class="font-size-16">F</span>
+                                        </span>
+                                        <p class="font-size-14 mb-0">Wind: {{ conditions.wind_dir }}
+                                            @{{ conditions.wind_mph }} / {{ conditions.wind_gust_mph }}</p>
+                                        <p class="font-size-14 mb-0">Visibility: {{ conditions.visibility_mi }}
+                                            miles</p>
+                                        <p class="font-size-14 mb-0">Humidity: {{ conditions.relative_humidity }}</p>
+                                        <p class="font-size-14 mb-0">Rainfall (1h): {{ conditions.precip_1hr_in }}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-8 col-md-7">
                                 <div class="row no-space text-center">
-                                    <div class="col-2">
-                                        <div class="weather-day vertical-align">
-                                            <div class="vertical-align-middle font-size-16">
-                                                <div class="mb-10">TUE</div>
-                                                <i class="wi-day-sunny font-size-24 mb-10"></i>
-                                                <div>24°
-                                                    <span class="font-size-12">C</span>
+                                    {{#each weather }}
+                                        <div class="col-2">
+                                            <div class="weather-day vertical-align">
+                                                <div class="vertical-align-middle font-size-16">
+                                                    <div class="mb-10">{{ time }}</div>
+                                                    <i class="wu wu-black wu-32 wu-{{ icon }} font-size-24 mb-10"></i>
+                                                    <div>{{ temp }}°
+                                                        <span class="font-size-12">F</span>
+                                                    </div>
+                                                    <div>{{ wdir }} {{ wspd }}
+                                                        <span class="font-size-12">MPH</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-2">
-                                        <div class="weather-day vertical-align">
-                                            <div class="vertical-align-middle font-size-16">
-                                                <div class="mb-10">WED</div>
-                                                <i class="wi-day-cloudy font-size-24 mb-10"></i>
-                                                <div>21°
-                                                    <span class="font-size-12">C</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-2">
-                                        <div class="weather-day vertical-align">
-                                            <div class="vertical-align-middle font-size-16">
-                                                <div class="mb-10">THU</div>
-                                                <i class="wi-day-sunny font-size-24 mb-10"></i>
-                                                <div>25°
-                                                    <span class="font-size-12">C</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-2">
-                                        <div class="weather-day vertical-align">
-                                            <div class="vertical-align-middle font-size-16">
-                                                <div class="mb-10">FRI</div>
-                                                <i class="wi-day-cloudy-gusts font-size-24 mb-10"></i>
-                                                <div>20°
-                                                    <span class="font-size-12">C</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-2">
-                                        <div class="weather-day vertical-align">
-                                            <div class="vertical-align-middle font-size-16">
-                                                <div class="mb-10">SAT</div>
-                                                <i class="wi-day-lightning font-size-24 mb-10"></i>
-                                                <div>18°
-                                                    <span class="font-size-12">C</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-2">
-                                        <div class="weather-day vertical-align">
-                                            <div class="vertical-align-middle font-size-16">
-                                                <div class="mb-10">SUN</div>
-                                                <i class="wi-day-storm-showers font-size-24 mb-10"></i>
-                                                <div>14°
-                                                    <span class="font-size-12">C</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- End Card -->
                 </div>
-                <!-- End Card -->
             </div>
         </div>
     </div>
-</div>
-<script src="/assets/js/Site.js"></script>
-<script src="/assets/global/js/Plugin/asscrollable.js"></script>
-<script src="/assets/global/js/Plugin/slidepanel.js"></script>
-<script src="/assets/global/js/Plugin/switchery.js"></script>
-<script src="/assets/js/widgets/weather.js"></script>
+    <div class="col-lg-12 col-md-7">
+        {{#each alerts }}
+            <div class="card border">
+                <div class="card-body">
+                    <h5 class="card-title text-{{ severity }}">{{ type }} {{ description }}</h5>
+                    <p class="card-text">{{{ nl2br message }}}</p>
+                    {{#each labels }}
+                        <span class="badge badge-pill badge-{{ severity }}">{{ label }}</span>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+        {{#each events }}
+            <div class="card border">
+                <div class="card-body">
+                    <h5 class="card-title text-{{ severity }}">{{ title }}</h5>
+                    <p class="card-title">First Seen: {{formatDate first_seen "long"}}</p>
+                    <p class="card-title">Start: {{formatDate start "long"}}</p>
+                    <p class="card-title">End: {{formatDate end "long"}}</p>
+                    <p class="card-title">Duration: {{ duration }}</p>
+                    <p class="card-title">Scope: {{ scope }}</p>
+                    <p class="card-text">{{ description }}</p>
+                    {{#each labels }}
+                        <span class="badge badge-pill badge-{{ severity }}">{{ label }}</span>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    <script src="/assets/js/Site.js"></script>
+    <script src="/assets/global/js/Plugin/asscrollable.js"></script>
+    <script src="/assets/global/js/Plugin/slidepanel.js"></script>
+    <script src="/assets/global/js/Plugin/switchery.js"></script>
+    <script src="/assets/js/widgets/weather.js"></script>
