@@ -6,6 +6,10 @@ const Koa = require("koa");
 const hbs = require("koa-hbs");
 const serve = require("koa-static");
 const mount = require("koa-mount");
+const http = require("http");
+const https = require("https");
+const fs = require("fs");
+const enforceHttps = require("koa-sslify");
 
 // for passport support
 const session = require("koa-session");
@@ -25,6 +29,13 @@ require("./helpers/handlebars");
 
 // trust proxy
 app.proxy = true;
+
+app.use(enforceHttps({
+    trustProtoHeader: true
+}));
+
+// Force HTTPS on all page
+app.use(enforceHttps());
 
 // sessions
 app.keys = [config.site.secret];
@@ -48,9 +59,8 @@ app.use(hbs.middleware({
     defaultLayout: "main"
 }));
 
-
 // Error handling middleware
-app.use(async (ctx, next) => {
+app.use(async(ctx, next) => {
     try {
         await next();
     } catch (err) {
@@ -64,8 +74,19 @@ app.use(async (ctx, next) => {
 
 require("./routes");
 
+// SSL options
+const options = {
+    key: fs.readFileSync("/etc/letsencrypt/live/console.disastertech.us/privkey.pem"),
+    cert: fs.readFileSync("/etc/letsencrypt/live/console.disastertech.us/fullchain.pem")
+};
+
+// start the server
+http.createServer(app.callback()).listen(80);
+https.createServer(options, app.callback()).listen(443);
+/*
 console.log(`${config.site.name} is now listening on port ${config.site.port}`);
 app.listen(config.site.port);
+*/
 
 process.on("SIGINT", function exit() {
     process.exit();
