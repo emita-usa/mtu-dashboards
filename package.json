@@ -28,6 +28,7 @@
   "dependencies": {
     "@google/maps": "^0.5.5",
     "@microsoft/microsoft-graph-client": "^1.2.0",
+    "babel-helpers": "^6.24.1",
     "content-disposition": "^0.5.2",
     "fs": "0.0.1-security",
     "koa": "^2.3.0",

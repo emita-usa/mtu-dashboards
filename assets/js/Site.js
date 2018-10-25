@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define('/Site', ['exports', 'jquery', 'Config', 'Base', 'Menubar', 'GridMenu', 'Sidebar', 'PageAside'], factory);
+    define('/Site', ['exports', 'jquery', 'Base', 'Menubar', 'Sidebar', 'PageAside'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('jquery'), require('Config'), require('Base'), require('Menubar'), require('GridMenu'), require('Sidebar'), require('PageAside'));
+    factory(exports, require('jquery'), require('Base'), require('Menubar'), require('Sidebar'), require('PageAside'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.jQuery, global.Config, global.Base, global.SectionMenubar, global.SectionGridMenu, global.SectionSidebar, global.SectionPageAside);
+    factory(mod.exports, global.jQuery, global.Base, global.SectionMenubar, global.SectionSidebar, global.SectionPageAside);
     global.Site = mod.exports;
   }
-})(this, function (exports, _jquery, _Config, _Base2, _Menubar, _GridMenu, _Sidebar, _PageAside) {
+})(this, function (exports, _jquery, _Base2, _Menubar, _Sidebar, _PageAside) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -23,8 +23,6 @@
   var _Base3 = babelHelpers.interopRequireDefault(_Base2);
 
   var _Menubar2 = babelHelpers.interopRequireDefault(_Menubar);
-
-  var _GridMenu2 = babelHelpers.interopRequireDefault(_GridMenu);
 
   var _Sidebar2 = babelHelpers.interopRequireDefault(_Sidebar);
 
@@ -45,17 +43,11 @@
     babelHelpers.createClass(Site, [{
       key: 'initialize',
       value: function initialize() {
-        var _this2 = this;
-
         this.startLoading();
         this.initializePluginAPIs();
         this.initializePlugins();
 
         this.initComponents();
-
-        setTimeout(function () {
-          _this2.setDefaultState();
-        }, 500);
       }
     }, {
       key: 'process',
@@ -64,10 +56,8 @@
         this.initBootstrap();
 
         this.setupMenubar();
-        this.setupGridMenu();
         this.setupFullScreen();
         this.setupMegaNavbar();
-        this.setupWave();
         this.setupTour();
         this.setupNavbarCollpase();
         // Dropdown menu setup
@@ -79,88 +69,36 @@
     }, {
       key: '_getDefaultMeunbarType',
       value: function _getDefaultMeunbarType() {
-        var breakpoint = this.getCurrentBreakpoint(),
-            type = false;
-
-        if ($BODY.data('autoMenubar') === false || $BODY.is('.site-menubar-keep')) {
-          if ($BODY.hasClass('site-menubar-fold')) {
-            type = 'fold';
-          } else if ($BODY.hasClass('site-menubar-unfold')) {
-            type = 'unfold';
-          }
-        }
-
-        switch (breakpoint) {
-          case 'lg':
-            type = type || 'unfold';
-            break;
-          case 'md':
-          case 'sm':
-            type = type || 'fold';
-            break;
-          case 'xs':
-            type = 'hide';
-            break;
-          // no default
-        }
-        return type;
-      }
-    }, {
-      key: 'setDefaultState',
-      value: function setDefaultState() {
-        var defaultState = this.getDefaultState();
-
-        // menubar
-        this.menubar.change(defaultState.menubarType);
-        // gridmenu
-        this.gridmenu.toggle(defaultState.gridmenu);
-      }
-    }, {
-      key: 'getDefaultState',
-      value: function getDefaultState() {
-        var menubarType = this._getDefaultMeunbarType();
-        return {
-          menubarType: menubarType,
-          gridmenu: false
-        };
+        return 'hide';
       }
     }, {
       key: 'menubarType',
       value: function menubarType(type) {
-        var toggle = function toggle($el) {
-          $el.toggleClass('hided', !(type === 'open'));
-          $el.toggleClass('unfolded', !(type === 'fold'));
-        };
-
         (0, _jquery2.default)('[data-toggle="menubar"]').each(function () {
           var $this = (0, _jquery2.default)(this);
           var $hamburger = (0, _jquery2.default)(this).find('.hamburger');
 
           if ($hamburger.length > 0) {
-            toggle($hamburger);
+            $hamburger.toggleClass('hided', !(type === 'open'));
           } else {
-            toggle($this);
+            $this.toggleClass('hided', !(type === 'open'));
           }
         });
       }
     }, {
       key: 'initComponents',
       value: function initComponents() {
-        var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-
         this.menubar = new _Menubar2.default({
           $el: (0, _jquery2.default)('.site-menubar')
         });
-        this.gridmenu = new _GridMenu2.default({
-          $el: (0, _jquery2.default)('.site-gridmenu')
-        });
-        this.sidebar = new _Sidebar2.default();
 
+        this.sidebar = new _Sidebar2.default();
         var $aside = (0, _jquery2.default)('.page-aside');
         if ($aside.length > 0) {
           this.aside = new _PageAside2.default({
             $el: $aside
           });
+
           this.aside.run();
         }
 
@@ -215,24 +153,6 @@
         }
       }
     }, {
-      key: 'setupGridMenu',
-      value: function setupGridMenu() {
-        var self = this;
-
-        $DOC.on('click', '[data-toggle="gridmenu"]', function () {
-          var $this = (0, _jquery2.default)(this);
-          var isOpened = self.gridmenu.isOpened;
-
-          if (isOpened) {
-            $this.addClass('active').attr('aria-expanded', true);
-          } else {
-            $this.removeClass('active').attr('aria-expanded', false);
-          }
-
-          self.gridmenu.toggle(!isOpened);
-        });
-      }
-    }, {
       key: 'setupMegaNavbar',
       value: function setupMegaNavbar() {
         $DOC.on('click', '.navbar-mega .dropdown-menu', function (e) {
@@ -268,18 +188,12 @@
     }, {
       key: 'setupMenubar',
       value: function setupMenubar() {
-        var _this3 = this;
+        var _this2 = this;
 
         (0, _jquery2.default)(document).on('click', '[data-toggle="menubar"]', function () {
-          var type = _this3.menubar.type;
+          var type = _this2.menubar.type;
 
           switch (type) {
-            case 'fold':
-              type = 'unfold';
-              break;
-            case 'unfold':
-              type = 'fold';
-              break;
             case 'open':
               type = 'hide';
               break;
@@ -289,14 +203,23 @@
             // no default
           }
 
-          _this3.menubar.change(type);
-          _this3.menubarType(type);
+          _this2.menubar.change(type);
+          _this2.menubarType(type);
+
           return false;
         });
 
+        (0, _jquery2.default)(document).on('collapsed.site.menu expanded.site.menu', function () {
+          var type = _this2.menubar.type;
+
+          if (type === 'open' && _this2.menubar && _this2.menubar.scrollable) {
+            _this2.menubar.scrollable.update();
+          }
+        });
+
         Breakpoints.on('change', function () {
-          _this3.menubar.type = _this3._getDefaultMeunbarType();
-          _this3.menubar.change(_this3.menubar.type);
+          _this2.menubar.type = _this2._getDefaultMeunbarType();
+          _this2.menubar.change(_this2.menubar.type);
         });
       }
     }, {
@@ -320,12 +243,9 @@
         }
 
         // let loadingType = 'default';
-        var assets = (0, _Config.get)('assets');
         $BODY.animsition({
           inClass: 'fade-in',
-          outClass: 'fade-out',
           inDuration: 800,
-          outDuration: 500,
           loading: true,
           loadingClass: 'loader-overlay',
           loadingParentElement: 'html',
@@ -342,7 +262,7 @@
           }
           var overflow = (0, _jquery2.default)('body').css('overflow'),
               self = this,
-              tourOptions = (0, _Config.get)('tour');
+              tourOptions = Config.get('tour');
 
           this.tour = introJs();
 
@@ -370,16 +290,6 @@
         //   window.localStorage.setItem('startTour', true);
         // }
       }
-    }, {
-      key: 'setupWave',
-      value: function setupWave() {
-        if (typeof Waves !== 'undefined') {
-          Waves.init();
-          Waves.attach('.site-menu-item > a', ['waves-classic']);
-          Waves.attach(".site-navbar .navbar-toolbar a", ["waves-light", "waves-round"]);
-          Waves.attach('.btn', ['waves-classic']);
-        }
-      }
     }]);
     return Site;
   }(_Base3.default);
@@ -402,11 +312,4 @@
   exports.Site = Site;
   exports.run = run;
   exports.getInstance = getInstance;
-});
-
-$(function(){
-    $('.card-head > span').click(function(){
-        $(this).parent().parent().toggleClass('collapsed');
-        $(this).parent().parent().find('.card-body').slideToggle();
-    });
 });

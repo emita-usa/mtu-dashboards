@@ -21,7 +21,7 @@ router.get("/", main.index);
 router.get("/login", account.login);
 router.get("/logout", account.logout);
 router.get("/account", account.index);
-router.get("/weather", weather.index);
+router.get("/weather/:state/:city", weather.index);
 
 // you can add as many strategies as you want
 router.get("/auth/github",

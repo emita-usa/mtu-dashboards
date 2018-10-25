@@ -35,7 +35,7 @@ app.use(enforceHttps({
 }));
 
 // Force HTTPS on all page
-app.use(enforceHttps());
+// app.use(enforceHttps());
 
 // sessions
 app.keys = [config.site.secret];
